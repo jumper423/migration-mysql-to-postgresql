@@ -237,13 +237,11 @@ class MapDataTypes
      */
     public static function map($strMySqlDataType)
     {
-        $strRetVal                  = '';
         $arrDataTypeDetails         = explode(' ', $strMySqlDataType);
         $boolIncreaseOriginalSize   = in_array('unsigned', $arrDataTypeDetails) || in_array('zerofill', $arrDataTypeDetails);
         $strMySqlDataType           = $arrDataTypeDetails[0];
         $strMySqlDataType           = strtolower($strMySqlDataType);
         $parenthesesFirstOccurrence = strpos($strMySqlDataType, '(');
-        $parenthesesLastOccurrence  = false;
         
         if (false === $parenthesesFirstOccurrence) {
             // No parentheses detected.
@@ -253,7 +251,6 @@ class MapDataTypes
             
         } else {
             // Parentheses detected.
-            $parenthesesLastOccurrence = strpos($strMySqlDataType, ')');
             $arrDataType               = explode('(', $strMySqlDataType);
             $strDataType               = strtolower($arrDataType[0]);
             

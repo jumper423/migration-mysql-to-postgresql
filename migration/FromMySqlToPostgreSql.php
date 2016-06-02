@@ -396,7 +396,6 @@ class FromMySqlToPostgreSql
      */
     private function createSchema()
     {
-        $boolRetVal       = false;
         $boolSchemaExists = false;
         $sql              = '';
 
@@ -476,7 +475,7 @@ class FromMySqlToPostgreSql
             $arrColumns = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             unset($sql, $stmt);
 
-            $sql  = \ViewGenerator::generateView($this->strSchema, $strViewName, $arrColumns[0]['Create View']);
+            $sql  = ViewGenerator::generateView($this->strSchema, $strViewName, $arrColumns[0]['Create View']);
             $stmt = $this->pgsql->query($sql);
             unset($sql, $stmt, $arrColumns);
             $this->log(PHP_EOL . "\t" . '-- View: "' . $this->strSchema . '"."' . $strViewName . '" is created...' . PHP_EOL);
@@ -534,7 +533,7 @@ class FromMySqlToPostgreSql
             $strSqlCreateTable = 'CREATE TABLE "' . $this->strSchema . '"."' . $strTableName . '"(';
 
             foreach ($arrColumns as $arrColumn) {
-                $strSqlCreateTable .= '"' . $arrColumn['Field'] . '" ' . \MapDataTypes::map($arrColumn['Type']) . ',';
+                $strSqlCreateTable .= '"' . $arrColumn['Field'] . '" ' . MapDataTypes::map($arrColumn['Type']) . ',';
                 unset($arrColumn);
             }
 
@@ -737,7 +736,6 @@ class FromMySqlToPostgreSql
         $intRowsCnt,
         $intForNowInserted
     ) {
-        $intRetVal   = 0;
         $arrRows     = [];
         $sql         = '';
         $strAddrCsv  = '';
@@ -1182,10 +1180,9 @@ class FromMySqlToPostgreSql
      * Create primary key and indices.
      *
      * @param  string $strTableName
-     * @param  array  $arrColumns
      * @return void
      */
-    private function processIndexAndKey($strTableName, array $arrColumns)
+    private function processIndexAndKey($strTableName)
     {
         $sql = '';
 
@@ -1201,7 +1198,6 @@ class FromMySqlToPostgreSql
             $arrIndices       = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             $arrPgIndices     = [];
             $intCounter       = 0;
-            $strCurrentAction = '';
             unset($sql, $stmt);
 
             foreach ($arrIndices as $arrIndex) {
@@ -1430,7 +1426,6 @@ class FromMySqlToPostgreSql
     private function setTableConstraints($strTableName)
     {
         $this->log("\t" . '-- Trying to set table constraints for "' . $this->strSchema . '"."' . $strTableName . '"...' . PHP_EOL);
-        $arrColumns = [];
         $sql        = '';
 
         try {
@@ -1453,7 +1448,7 @@ class FromMySqlToPostgreSql
         $this->processNull($strTableName, $arrColumns);
         $this->processDefault($strTableName, $arrColumns);
         $this->createSequence($strTableName, $arrColumns);
-        $this->processIndexAndKey($strTableName, $arrColumns);
+        $this->processIndexAndKey($strTableName);
         $this->log(
             "\t" . '-- Constraints for "' . $this->strSchema . '"."' . $strTableName
             . '" were set successfully...' . PHP_EOL
@@ -1544,8 +1539,7 @@ class FromMySqlToPostgreSql
     {
         foreach ($this->arrTablesToMigrate as $arrTable) {
             $floatStartCopy = microtime(true);
-            $intRecords     = 0;
-            
+
             if (
                 !$this->isDataOnly
                 && !$this->createTable($arrTable['Tables_in_' . $this->strMySqlDbName])
