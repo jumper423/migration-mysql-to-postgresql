@@ -199,10 +199,10 @@ class FromMySqlToPostgreSql
         $this->arrSummaryReport            = [];
         $this->strTemporaryDirectory       = isset($arrConfig['temp_dir_path']) ? $arrConfig['temp_dir_path'] : __DIR__ . '/temporary_directory';
         $this->strLogsDirectoryPath        = isset($arrConfig['logs_dir_path']) ? $arrConfig['logs_dir_path'] : __DIR__ . '/logs_directory';
-        $this->strWriteCommonLogTo         = $arrConfig['logs_dir_path'] . '/all.log';
-        $this->strWriteSummaryReportTo     = $arrConfig['logs_dir_path'] . '/report-only.log';
-        $this->strWriteErrorLogTo          = $arrConfig['logs_dir_path'] . '/errors-only.log';
-        $this->strViewsErrorsDirectoryPath = $arrConfig['logs_dir_path'] . '/not_created_views';
+        $this->strWriteCommonLogTo         = $this->strLogsDirectoryPath . '/all.log';
+        $this->strWriteSummaryReportTo     = $this->strLogsDirectoryPath . '/report-only.log';
+        $this->strWriteErrorLogTo          = $this->strLogsDirectoryPath . '/errors-only.log';
+        $this->strViewsErrorsDirectoryPath = $this->strLogsDirectoryPath . '/not_created_views';
         $this->strEncoding                 = isset($arrConfig['encoding']) ? $arrConfig['encoding'] : 'UTF-8';
         $this->floatDataChunkSize          = isset($arrConfig['data_chunk_size']) ? (float) $arrConfig['data_chunk_size'] : 10;
         $this->floatDataChunkSize          = $this->floatDataChunkSize < 1 ? 1 : $this->floatDataChunkSize;
