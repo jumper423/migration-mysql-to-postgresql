@@ -1,0 +1,22 @@
+{
+  "name": "jumper423/migration-mysql-to-postgresql",
+  "description": "Миграция из Mysql в PostgreSql",
+  "keywords": ["Миграция", "Mysql", "PostgreSql"],
+  "homepage": "https://github.com/jumper423/migration-mysql-to-postgresql",
+  "type": "project",
+  "license": "Apache License 2.0",
+  "support": {
+    "issues": "https://github.com/jumper423/migration-mysql-to-postgresql/issues?state=open",
+    "source": "https://github.com/jumper423/migration-mysql-to-postgresql"
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "config": {
+    "process-timeout": 1800
+  },
+  "autoload": {
+    "psr-4": {"jumper423\\migration\\": ""}
+  }
+}
